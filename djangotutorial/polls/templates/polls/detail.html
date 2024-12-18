@@ -1,20 +1,19 @@
 <form action="{% url 'polls:vote' question.id %}" method="post">
-    {% csrf_token %}  <!-- 防止跨站请求伪造（CSRF）攻击，生成一个CSRF令牌 -->
-    
-    <fieldset>  <!-- 创建一个可分组的表单区域 -->
-        <legend><h1>{{ question.question_text }}</h1></legend>  <!-- 显示问题的文本 -->
+    {% csrf_token %}
+    <fieldset>
+        <legend><h1>{{ question.question_text }}</h1></legend>
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
         
-        {% if error_message %}  <!-- 如果存在错误消息，则显示 -->
-            <p><strong>{{ error_message }}</strong></p>
-        {% endif %}
-        
-        {% for choice in question.choice_set.all %}  <!-- 遍历问题的所有选项 -->
-            <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
-            <!-- 每个选项是一个单选按钮，name属性相同表示这些选项属于同一组，id为动态生成的唯一值 -->
-            <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
-            <!-- 显示选项的文本，并绑定到对应的单选按钮 -->
+        <!-- 为每个选项生成单选按钮 -->
+        {% for choice in question.choice_set.all %}
+            <div style="margin-bottom: 10px;">
+                <!-- 为单选按钮添加样式 -->
+                <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+                <label for="choice{{ forloop.counter }}" style="font-size: 16px; cursor: pointer;">{{ choice.choice_text }}</label>
+            </div>
         {% endfor %}
     </fieldset>
     
-    <input type="submit" value="Vote">  <!-- 提交按钮，点击后提交投票 -->
+    <!-- 提交按钮 -->
+    <input type="submit" value="Vote" style="font-size: 16px; padding: 10px 20px;">
 </form>
