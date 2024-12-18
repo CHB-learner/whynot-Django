@@ -177,3 +177,57 @@ urlpatterns = [
 ]
 ```
 请注意，第二和第三个模式的路径字符串中匹配的模式名称已从 <question_id> 更改为 <pk>。这是因为我们将使用 DetailView 通用视图来替换我们的 detail() 和 results() 视图，它期望从 URL 中捕获的主键值被称为 "pk"。
+
+# [通用显示视图](https://docs.djangoproject.com/zh-hans/5.1/ref/class-based-views/generic-display/#django.views.generic.detail.DetailView)
+
+## 改良视图
+
+下一步，我们将删除旧的 index, detail, 和 results 视图，并用 Django 的通用视图代替。打开 polls/views.py 文件，并将它修改成：
+
+```
+from django.db.models import F
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
+from django.views import generic
+
+from .models import Choice, Question
+
+
+class IndexView(generic.ListView):
+    template_name = "polls/index.html"
+    context_object_name = "latest_question_list"
+
+    def get_queryset(self):
+        """Return the last five published questions."""
+        return Question.objects.order_by("-pub_date")[:5]
+
+
+class DetailView(generic.DetailView):
+    model = Question
+    template_name = "polls/detail.html"
+
+
+class ResultsView(generic.DetailView):
+    model = Question
+    template_name = "polls/results.html"
+
+
+def vote(request, question_id):
+    # same as above, no changes needed.
+    ...
+```
+
+每个通用视图都需要知道它将要操作的模型。可以使用 model 属性来提供这个信息（在这个示例中，对于 DetailView 和 ResultsView，是 model = Question），或者通过定义 get_queryset() 方法来实现（如 IndexView 中所示）。
+
+默认情况下，通用视图 DetailView 使用一个叫做 ```<app name>/<model name>_detail.html ```的模板。在我们的例子中，它将使用``` "polls/question_detail.html" ```模板。template_name 属性是用来告诉 Django 使用一个指定的模板名字，而不是自动生成的默认名字。 我们也为 results 列表视图指定了 template_name —— 这确保 results 视图和 detail 视图在渲染时具有不同的外观，即使它们在后台都是同一个 DetailView 。
+
+类似地，ListView 使用一个叫做``` <app name>/<model name>_list.html ```的默认模板；我们使用 template_name 来告诉 ListView 使用我们创建的已经存在的 ```"polls/index.html" ```模板。
+
+在之前的教程中，提供模板文件时都带有一个包含 question 和 latest_question_list 变量的 context。对于 DetailView ， question 变量会自动提供—— 因为我们使用 Django 的模型（Question）， Django 能够为 context 变量决定一个合适的名字。然而对于 ListView， 自动生成的 context 变量是 question_list。为了覆盖这个行为，我们提供 context_object_name 属性，表示我们想使用 latest_question_list。作为一种替换方案，你可以改变你的模板来匹配新的 context 变量 —— 这是一种更便捷的方法，告诉 Django 使用你想使用的变量名。
+
+启动服务器，使用一下基于通用视图的新投票应用。
+
+更多关于通用视图的详细信息，请查看 通用视图的文档
+
+当你对你所写的表单和通用视图感到满意后，请阅读 教程的第 5 部分 来了解如何测试我们的投票应用。
