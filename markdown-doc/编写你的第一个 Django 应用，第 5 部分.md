@@ -195,8 +195,79 @@ def test_was_published_recently_with_recent_question(self):
     self.assertIs(recent_question.was_published_recently(), True)
 ```
 
+现在，我们有三个测试来确保Question.was_published_recently()过去、最近和未来的透明情况都返回正确的值。
 
+再次申明， polls 现在是一个小型的应用程序，但是无论它以后变得多么复杂，无论他和其他代码如何交互，我们都可以在一定的编程中保证我们所编写的测试的方法将按照预期的方式运行。
+# 测试视图¶
+我们对所有问题的投票应用都一视同仁：它不会发布所有的问题，也包括那些pub_date字段值是未来的问题。我们应该改进这一点。如果pub_date设置为未来的某天，这应该被解释为这个问题将在所填写的时间点才被发布，而在之前是不可见的。
 
+## 针对审查的测试¶
+为了修复上述 bug，我们这次先编写测试，然后再去修改代码。事实上，这是一个「测试驱动」开发模式的实例，但其实这两者的顺序不太重要。
+
+在我们的第一个测试中，我们关注代码的内部行为。我们通过用户使用模拟浏览器访问被测试的应用程序来检查代码行为是否符合预期。
+
+在我们动手之前，先看看需要用到的工具。
+
+## Django 测试工具之客户端
+
+Django 提供了一个供测试使用的Client来模拟用户和视图层代码的交互。我们tests.py甚至 可以在shell中使用它。
+
+我们从 shell开始开始，首先我们做一些在tests.py不是必须的准备工作。第一步是在中 shell配置测试环境：
+
+```
+/ 
+$ python manage.py shell
+>>> from django.test.utils import setup_test_environment
+>>> setup_test_environment()
+```
+
+setup_test_environment()安装了一个模板渲染器，这需要我们能够检查响应上的一些额外属性，例如response.context，否则将无法使用此功能。请注意，这个方法不会建立一个测试数据库，所以下面的内容将针对现有的数据库运行，输出结果可能会不同，这取决于您已经创建了哪些问题。如果您中settings.py的TIME_ZONE不正确，您可能会得到意外的结果。如果您不记得之前的配置，请在继续之前检查。
+
+接下来，我们需要导入测试客户端类（前面在tests.py中，我们将使用django.test.TestCase类，它自带一个客户端，所以这个步骤不是必需的）：
+
+```
+>>> from django.test import Client
+>>> # create an instance of the client for our use
+>>> client = Client()
+准备好后，我们可以要求客户端为我们执行一些工作：
+
+>>> # get a response from '/'
+>>> response = client.get("/")
+Not Found: /
+>>> # we should expect a 404 from that address; if you instead see an
+>>> # "Invalid HTTP_HOST header" error and a 400 response, you probably
+>>> # omitted the setup_test_environment() call described earlier.
+>>> response.status_code
+404
+>>> # on the other hand we should expect to find something at '/polls/'
+>>> # we'll use 'reverse()' rather than a hardcoded URL
+>>> from django.urls import reverse
+>>> response = client.get(reverse("polls:index"))
+>>> response.status_code
+200
+>>> response.content
+b'\n    <ul>\n    \n        <li><a href="/polls/1/">What&#x27;s up?</a></li>\n    \n    </ul>\n\n'
+>>> response.context["latest_question_list"]
+<QuerySet [<Question: What's up?>]>
+```
+
+# 改进审查代码
+现在的投票列表将显示未来的投票（pub_date值为未来的某天）。我们来修复这个问题。
+
+在教程的第 4 部分 里，我们介绍了基于ListView的视图类：
+
+```
+polls/views.py
+
+class IndexView(generic.ListView):
+    template_name = "polls/index.html"
+    context_object_name = "latest_question_list"
+
+    def get_queryset(self):
+        """Return the last five published questions."""
+        return Question.objects.order_by("-pub_date")[:5]
+
+```	
 
 
 	
