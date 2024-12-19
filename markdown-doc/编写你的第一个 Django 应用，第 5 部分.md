@@ -78,3 +78,71 @@ True
 一般来说，Django应用的测试应该写在应用的tests.py文件里。测试系统会自动的在所有文件里寻找并执行以test底层的测试函数。
 
 将下面的代码写入polls应用里的tests.py文件内：
+
+```
+import datetime
+
+from django.test import TestCase
+from django.utils import timezone
+
+from .models import Question
+
+
+class QuestionModelTests(TestCase):
+    def test_was_published_recently_with_future_question(self):
+        """
+        was_published_recently() returns False for questions whose pub_date
+        is in the future.
+        """
+        time = timezone.now() + datetime.timedelta(days=30)
+        future_question = Question(pub_date=time)
+        self.assertIs(future_question.was_published_recently(), False)
+```
+我们创建了一个django.test.TestCase子类，并添加了一个方法，这个方法创建了一个pub_date未来某天的Question实例。然后检查它的was_published_recently()方法的返回值——它应该是False。
+
+
+## 运行测试¶
+在终端中，我们通过输入以下代码运行测试：
+
+```
+$ python manage.py test polls
+
+(base) hbc@HaobindeMacBook-Air djangotutorial % python manage.py test polls
+Found 1 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+F
+======================================================================
+FAIL: test_was_published_recently_with_future_question (polls.tests.QuestionModelTests.test_was_published_recently_with_future_question)
+was_published_recently() returns False for questions whose pub_date
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/hbc/CHANG_THINKING/whynot-Django/djangotutorial/polls/tests.py", line 17, in test_was_published_recently_with_future_question
+    self.assertIs(future_question.was_published_recently(), False)
+AssertionError: True is not False
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+```
+以下是自动化测试的运行流程：
+
+python manage.py test polls 将寻找 polls应用里的测试代码
+
+它找到了django.test.TestCase一个子类
+
+它创建了一个特殊的数据库供测试使用
+
+它在类中寻找测试方法——以test开头的方法。
+
+在 test_was_published_recently_with_future_question方法中，它创建了一个pub_date值为 30 天后的Question实例。
+
+使用assertls()方法，发现was_published_recently()返回了True，而我们期望它返回False。
+
+测试系统通知我们哪些测试样例失败了，并造成测试失败的代码所在的行号。
+## 修复此错误
+
+
+
