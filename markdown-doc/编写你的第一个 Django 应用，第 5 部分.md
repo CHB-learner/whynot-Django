@@ -268,6 +268,111 @@ class IndexView(generic.ListView):
         return Question.objects.order_by("-pub_date")[:5]
 
 ```	
+我们需要改进 get_queryset()方法，让他能够通过将 Question 的 pub_data 属性与timezone.now()比较来判断是否显示该 Question。首先我们需要一行 import 语句：
+
+```
+polls/views.py¶
+from django.utils import timezone
+然后我们把 get_queryset 方法改写成下面这样：
+
+polls/views.py¶
+def get_queryset(self):
+    """
+    Return the last five published questions (not including those set to be
+    published in the future).
+    """
+    return Question.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[
+        :5
+    ]
+```
+Question.objects.filter(pub_date__lte=timezone.now())返回一个包含Question的pub_date小于或等于（即，早于或等于）timezone.now的时间查询集。
+
+## 	测试新视图¶
+启动服务器、在浏览器中加载站点、创建一些发布时间在过去和将来的 Questions，然后检验只有已经发布的 Questions 才会展示出来，现在你就可以对自己感到满意了。你不想修改每次可能与这相关的代码时都重复这样做——所以让我们基于以上shell 会话中的内容，再编写一个测试。
+
+将下面的代码添加到polls/tests.py：
+
+```
+polls/tests.py¶
+from django.urls import reverse
+```
+然后我们写一个公用的快捷函数来创建投票问题，再为视图创建一个测试类：
+
+```
+polls/tests.py
+
+def create_question(question_text, days):
+    """
+    Create a question with the given `question_text` and published the
+    given number of `days` offset to now (negative for questions published
+    in the past, positive for questions that have yet to be published).
+    """
+    time = timezone.now() + datetime.timedelta(days=days)
+    return Question.objects.create(question_text=question_text, pub_date=time)
+
+
+class QuestionIndexViewTests(TestCase):
+    def test_no_questions(self):
+        """
+        If no questions exist, an appropriate message is displayed.
+        """
+        response = self.client.get(reverse("polls:index"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "No polls are available.")
+        self.assertQuerySetEqual(response.context["latest_question_list"], [])
+
+    def test_past_question(self):
+        """
+        Questions with a pub_date in the past are displayed on the
+        index page.
+        """
+        question = create_question(question_text="Past question.", days=-30)
+        response = self.client.get(reverse("polls:index"))
+        self.assertQuerySetEqual(
+            response.context["latest_question_list"],
+            [question],
+        )
+
+    def test_future_question(self):
+        """
+        Questions with a pub_date in the future aren't displayed on
+        the index page.
+        """
+        create_question(question_text="Future question.", days=30)
+        response = self.client.get(reverse("polls:index"))
+        self.assertContains(response, "No polls are available.")
+        self.assertQuerySetEqual(response.context["latest_question_list"], [])
+
+    def test_future_question_and_past_question(self):
+        """
+        Even if both past and future questions exist, only past questions
+        are displayed.
+        """
+        question = create_question(question_text="Past question.", days=-30)
+        create_question(question_text="Future question.", days=30)
+        response = self.client.get(reverse("polls:index"))
+        self.assertQuerySetEqual(
+            response.context["latest_question_list"],
+            [question],
+        )
+
+    def test_two_past_questions(self):
+        """
+        The questions index page may display multiple questions.
+        """
+        question1 = create_question(question_text="Past question 1.", days=-30)
+        question2 = create_question(question_text="Past question 2.", days=-5)
+        response = self.client.get(reverse("polls:index"))
+        self.assertQuerySetEqual(
+            response.context["latest_question_list"],
+            [question2, question1],
+        )
+```
+
+
+
+
+
 
 
 	
