@@ -144,5 +144,70 @@ python manage.py test polls 将寻找 polls应用里的测试代码
 测试系统通知我们哪些测试样例失败了，并造成测试失败的代码所在的行号。
 ## 修复此错误
 
+我们无数次知道，当pub_date为未来的某天时，Question.was_published_recently()应该返回False。我们修改models.py里的方法，只在日期是过去式的时候才返回True：
+
+```
+polls/models.py¶
+def was_published_recently(self):
+    now = timezone.now()
+    return now - datetime.timedelta(days=1) <= self.pub_date <= now
+```
+然后再次运行：
+
+```
+Found 1 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK
+Destroying test database for alias 'default'...
+```
+发现bug后，我们编写了能够暴露这个bug的自动化测试。在修复bug之后，我们的代码顺利的通过了测试。
+
+将来，我们的应用程序可能会出现其他的问题，但是我们可以肯定的是，一定不会再次出现这个bug，因为只要运行反复测试，就会立刻收到警告。我们可以认为应用程序的这一小部分代码永远是安全的。
+
+## 更全面的测试
+我们已经搞定了一部分了，现在可以全面考虑的测试was_published_recently()这个方法修复它的安全性，然后就可以把这个方法稳定下来了。事实上，在修复一个bug的时候不小心引入另一个bug会是非常好的令人尴尬的。
+
+我们在上次写的类里再增加两个测试，来更全面的测试这个方法：
+
+```
+def test_was_published_recently_with_old_question(self):
+    """
+    was_published_recently() returns False for questions whose pub_date
+    is older than 1 day.
+    """
+    time = timezone.now() - datetime.timedelta(days=1, seconds=1)
+    old_question = Question(pub_date=time)
+    self.assertIs(old_question.was_published_recently(), False)
+
+
+def test_was_published_recently_with_recent_question(self):
+    """
+    was_published_recently() returns True for questions whose pub_date
+    is within the last day.
+    """
+    time = timezone.now() - datetime.timedelta(hours=23, minutes=59, seconds=59)
+    recent_question = Question(pub_date=time)
+    self.assertIs(recent_question.was_published_recently(), True)
+```
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
 
 
