@@ -1,3 +1,14 @@
+'''
+Author: CHB-learner 211430209@mail.dhu.edu.cn
+Date: 2024-12-11 15:31:49
+FilePath: /whynot-Django/djangotutorial/polls/tests.py
+Description: 
+
+~请在这里写文件功能描述~
+
+
+Copyright (c) 2024 by CHB-learner 211430209@mail.dhu.edu.cn, All Rights Reserved. 
+'''
 import datetime
 
 from django.test import TestCase
@@ -102,3 +113,24 @@ class QuestionIndexViewTests(TestCase):
             response.context["latest_question_list"],
             [question2, question1],
         )
+        
+class QuestionDetailViewTests(TestCase):
+    def test_future_question(self):
+        """
+        The detail view of a question with a pub_date in the future
+        returns a 404 not found.
+        """
+        future_question = create_question(question_text="Future question.", days=5)
+        url = reverse("polls:detail", args=(future_question.id,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_past_question(self):
+        """
+        The detail view of a question with a pub_date in the past
+        displays the question's text.
+        """
+        past_question = create_question(question_text="Past Question.", days=-5)
+        url = reverse("polls:detail", args=(past_question.id,))
+        response = self.client.get(url)
+        self.assertContains(response, past_question.question_text)

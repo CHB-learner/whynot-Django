@@ -1,1 +1,6 @@
-<li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'polls/style.css' %}">
+
+{% comment %} <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li> {% endcomment %}
