@@ -369,6 +369,58 @@ class QuestionIndexViewTests(TestCase):
         )
 ```
 
+让我们更详细地看下以上这些内容。
+
+首先是一个快捷函数 create_question，它封装了创建投票的流程，减少了重复代码。
+
+test_no_questions 不会创建任何问题，但会检查消息 "No polls are available." 并验证 latest_question_list 是否为空。注意，django.test.TestCase 类提供了一些额外的断言方法。在这些示例中，我们使用了 assertContains() 和 assertQuerySetEqual()。
+
+在 test_past_question 方法中，我们创建了一个投票并检查它是否出现在列表中。
+
+在 test_future_question 中，我们创建 pub_date 在未来某天的投票。数据库会在每次调用测试方法前被重置，所以第一个投票已经没了，所以主页中应该没有任何投票。
+
+剩下的那些也都差不多。实际上，测试就是假装一些管理员的输入，然后通过用户端的表现是否符合预期来判断新加入的改变是否破坏了原有的系统状态。
+
+## 测试 DetailView
+我们的工作似乎已经很完美了？不，还有一个问题：就算在发布日期时未来的那些投票不会在目录页 index 里出现，但是如果用户知道或者猜到正确的 URL ，还是可以访问到它们。所以我们得在 DetailView 里增加一些约束：
+
+```
+polls/views.py¶
+class DetailView(generic.DetailView):
+    ...
+
+    def get_queryset(self):
+        """
+        Excludes any questions that aren't published yet.
+        """
+        return Question.objects.filter(pub_date__lte=timezone.now())
+
+```
+然后，我们应该增加一些测试来检验 pub_date 在过去的 Question 能够被显示出来，而 pub_date 在未来的则不可以：
+
+```
+polls/tests.py¶
+class QuestionDetailViewTests(TestCase):
+    def test_future_question(self):
+        """
+        The detail view of a question with a pub_date in the future
+        returns a 404 not found.
+        """
+        future_question = create_question(question_text="Future question.", days=5)
+        url = reverse("polls:detail", args=(future_question.id,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_past_question(self):
+        """
+        The detail view of a question with a pub_date in the past
+        displays the question's text.
+        """
+        past_question = create_question(question_text="Past Question.", days=-5)
+        url = reverse("polls:detail", args=(past_question.id,))
+        response = self.client.get(url)
+        self.assertContains(response, past_question.question_text)
+```
 
 
 
