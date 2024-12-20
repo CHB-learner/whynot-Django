@@ -20,13 +20,31 @@ Copyright (c) 2024 by CHB-learner 211430209@mail.dhu.edu.cn, All Rights Reserved
 # admin.site.register(Choice)
 
 
+# from django.contrib import admin
+
+# from .models import Question
+
+
+# class QuestionAdmin(admin.ModelAdmin):
+#     fields = ["pub_date", "question_text"]
+
+
+# admin.site.register(Question, QuestionAdmin)
+
+
+##   Aleck 
+##   123456
+
 from django.contrib import admin
 
 from .models import Question
 
 
 class QuestionAdmin(admin.ModelAdmin):
-    fields = ["pub_date", "question_text"]
+    fieldsets = [
+        ('question_text', {"fields": ["question_text"]}),
+        ("Date information_11", {"fields": ["pub_date"]}),
+    ]
 
 
 admin.site.register(Question, QuestionAdmin)

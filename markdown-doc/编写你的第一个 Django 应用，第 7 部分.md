@@ -30,3 +30,36 @@ admin.site.register(Question, QuestionAdmin)
 
 说到拥有数十个字段的表单，你可能更期望将表单分为几个字段集：
 
+```
+polls/admin.py¶
+from django.contrib import admin
+
+from .models import Question
+
+
+class QuestionAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (None, {"fields": ["question_text"]}),
+        ("Date information", {"fields": ["pub_date"]}),
+    ]
+
+
+admin.site.register(Question, QuestionAdmin)
+```
+
+添加关联的对象¶
+好了，现在我们有了投票的后台页。不过，一个 Question 有多个 Choice，但后台页却没有显示多个选项。
+
+好了。
+
+有两个方法可以解决这个问题。第一个就是仿照我们向后台注册 Question 一样注册 Choice ：
+
+```
+polls/admin.py¶
+from django.contrib import admin
+
+from .models import Choice, Question
+
+# ...
+admin.site.register(Choice)
+```
