@@ -171,4 +171,99 @@ class Question(models.Model):
 ```
 
 
+更多关于可通过装饰器设置的属性的信息，请参见 list_display。
+
+再次编辑文件 polls/admin.py，优化 Question 变更页：过滤器，使用 list_filter。将以下代码添加至 QuestionAdmin：
+
+```
+list_filter = ["pub_date"]
+```
+这样做添加了一个“过滤器”侧边栏，允许人们以 pub_date 字段来过滤列表：
+
+展示的过滤器类型取决你你要过滤的字段的类型。因为 pub_date 是类 DateTimeField，Django 知道要提供哪个过滤器：“任意时间”，“今天”，“过去7天”，“这个月”和“今年”。
+
+这已经弄的很好了。让我们再扩充些功能:
+
+```
+search_fields = ["question_text"]
+```
+在列表的顶部增加一个搜索框。当输入待搜项时，Django 将搜索 question_text 字段。你可以使用任意多的字段——由于后台使用 LIKE 来查询数据，将待搜索的字段数限制为一个不会出问题大小，会便于数据库进行查询操作。
+
+现在是给你的修改列表页增加分页功能的好时机。默认每页显示 100 项。变更页分页, 搜索框, 过滤器, 日期层次结构, 和 列标题排序 均以你期望的方式合作运行。
+
+
+
+## 自定义后台界面和风格¶
+在每个后台页顶部显示“Django 管理员”显得很滑稽。这只是一串占位文本。
+
+不过，你可以通过 Django 的模板系统来修改。Django 的后台由自己驱动，且它的交互接口采用 Django 自己的模板系统。
+
+## 自定义你的 工程的 模板¶
+在您的目录中创建一个templates目录djangotutorial。模板可以位于 Django 可以访问的文件系统上的任何位置。（Django 以您的服务器运行的任何用户身份运行。）但是，将模板保留在项目内是一种很好的惯例。
+
+打开你的设置文件（mysite/settings.py，牢记），在 TEMPLATES 设置中添加 DIRS 选项：
+
+```
+mysite/settings.py¶
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [BASE_DIR / "templates"],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+            ],
+        },
+    },
+]
+```
+DIRS 是一个包含多个系统目录的文件列表，用于在载入 Django 模板时使用，是一个待搜索路径。
+
+组织模板
+
+就像静态文件一样，我们 可以 把所有的模板文件放在一个大模板目录内，这样它也能工作的很好。但是，属于特定应用的模板文件最好放在应用所属的模板目录（例如 polls/templates），而不是工程的模板目录（templates）。我们会在 创建可复用的应用教程 中讨论 为什么 我们要这样做。
+
+现在在 templates 目录内创建一个名为 admin 的目录，并将默认的 Django 管理界面模板目录中的模板文件 admin/base_site.html 复制到该目录中。默认的 Django 管理界面模板目录位于 Django 源代码中（django/contrib/admin/templates）。
+
+Django 的源文件在哪里？
+
+如果你不知道 Django 源码在你系统的哪个位置，运行以下命令：
+
+```
+/ 
+$ python -c "import django; print(django.__path__)"
+接着，用你网页站点的名字编辑替换文件内的 {{ site_header|default:_('Django administration') }} （包含大括号）。完成后，你应该看到如下代码：
+
+{% block branding %}
+<div id="site-name"><a href="{% url 'admin:index' %}">Polls Administration</a></div>
+{% if user.is_anonymous %}
+  {% include "admin/color_theme_toggle.html" %}
+{% endif %}
+{% endblock %}
+```
+我们会用这个方法来教你复写模板。在一个实际工程中，你可能更期望使用 django.contrib.admin.AdminSite.site_header 来进行简单的定制。
+
+这个模板文件包含很多类似 {% block branding %} 和 {{ title }} 的文本。 {% 和 {{ 标签是 Django 模板语言的一部分。当 Django 渲染 admin/base_site.html 时，这个模板语言会被求值，生成最终的网页，就像我们在 教程第 3 部分 所学的一样。
+
+注意，所有的 Django 默认后台模板均可被复写。若要复写模板，像你修改 base_site.html 一样修改其它文件——先将其从默认目录中拷贝到你的自定义目录，再做修改。
+
+自定义你 应用的 模板¶
+机智的同学可能会问： DIRS 默认是空的，Django 是怎么找到默认的后台模板的？因为 APP_DIRS 被置为 True，Django 会自动在每个应用包内递归查找 templates/ 子目录（不要忘了 django.contrib.admin 也是一个应用）。
+
+我们的投票应用不是非常复杂，所以无需自定义后台模板。不过，如果它变的更加复杂，需要修改 Django 的标准后台模板功能时，修改 应用 的模板会比 工程 的更加明智。这样，在其它工程包含这个投票应用时，可以确保它总是能找到需要的自定义模板文件。
+
+更多关于 Django 如何查找模板的文档，参见 加载模板文档。
+
+自定义后台主页¶
+在类似的说明中，你可能想要自定义 Django 后台索引页的外观。
+
+默认情况下，它展示了所有配置在 INSTALLED_APPS 中，已通过后台应用注册，按拼音排序的应用。你可能想对这个页面的布局做重大的修改。毕竟，索引页是后台的重要页面，它应该便于使用。
+
+需要自定义的模板是 admin/index.html。（像上一节修改 admin/base_site.html 那样修改此文件——从默认目录中拷贝此文件至自定义模板目录）。打开此文件，你将看到它使用了一个叫做 app_list 的模板变量。这个变量包含了每个安装的 Django 应用。你可以用任何你期望的硬编码链接（链接至特定对象的管理页）替代使用这个变量。
+
+当你熟悉了管理员界面后，阅读 本教程的第 8 部分，学习如何使用第三方包。
 

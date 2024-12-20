@@ -1,6 +1,17 @@
+'''
+Author: CHB-learner 211430209@mail.dhu.edu.cn
+Date: 2024-12-11 15:31:49
+FilePath: /whynot-Django/djangotutorial/polls/models.py
+Description: 
+
+~请在这里写文件功能描述~
+
+
+Copyright (c) 2024 by CHB-learner 211430209@mail.dhu.edu.cn, All Rights Reserved. 
+'''
 from django.db import models
 import datetime
-
+from django.contrib import admin
 from django.db import models
 from django.utils import timezone
 
@@ -14,6 +25,14 @@ class Question(models.Model):
     
     # def was_published_recently(self):
     #     return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+    @admin.display(
+        boolean=True,
+        ordering="pub_date",
+        description="Published recently?",
+    )
+    def was_published_recently(self):
+        now = timezone.now()
+        return now - datetime.timedelta(days=1) <= self.pub_date <= now
     
     def was_published_recently(self):
         now = timezone.now()
