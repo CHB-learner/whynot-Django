@@ -19,3 +19,14 @@ class QuestionAdmin(admin.ModelAdmin):
 
 admin.site.register(Question, QuestionAdmin)
 ```
+
+你需要遵循以下流程——创建一个模型后台类，接着将其作为第二个参数传给 admin.site.register() ——在你需要修改模型的后台管理选项时这么做。
+
+以上修改使得 "Publication date" 字段显示在 "Question" 字段之前：
+
+
+
+这在只有两个字段时显得没啥卵用，但对于拥有数十个字段的表单来说，为表单选择一个直观的排序方法就显得你的针很细了。
+
+说到拥有数十个字段的表单，你可能更期望将表单分为几个字段集：
+
