@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'helloWorld.apps.HelloworldConfig',  # 注册helloWorld应用
 ]
 
 MIDDLEWARE = [
