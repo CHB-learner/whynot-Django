@@ -71,6 +71,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'helloWorld.mymid.md1.Md1',  # 注册自定义中间件
 ]
 
 '''
@@ -84,7 +85,7 @@ MessageMiddleware:开启内置的信息提示功能。
 XFrameOptionsMiddleware:防止恶意程序单击劫持。
 '''
 
-ROOT_URLCONF = 'python222_site1.urls'
+ROOT_URLCONF = 'python222_site1.urls'  # 项目的路由根目录
 
 
 #       项目的模板
@@ -106,7 +107,7 @@ TEMPLATES = [
 
 
 
-WSGI_APPLICATION = 'python222_site1.wsgi.application'
+WSGI_APPLICATION = 'python222_site1.wsgi.application' # 项目的WSGI应用，项目部署时使用
 
 
 # Database
@@ -130,7 +131,7 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS = [
+AUTH_PASSWORD_VALIDATORS = [ # 密码验证器
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
@@ -149,9 +150,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en-us' # 语言代码
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'UTC' # 时区
 
 USE_I18N = True
 
@@ -172,7 +173,7 @@ STATICFILES_DIRS = [
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField' # 默认的主键类型
 
 
 # 设置媒体路由
