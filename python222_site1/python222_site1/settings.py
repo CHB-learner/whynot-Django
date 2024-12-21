@@ -28,6 +28,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 #   项目的根目录        / 项目的子目录          
 BASE_DIR = Path(__file__).resolve().parent.parent       # 项目的根目录
@@ -61,7 +62,7 @@ INSTALLED_APPS = [
     'helloWorld.apps.HelloworldConfig',  # 注册helloWorld应用
 ]
 
-
+#       项目的中间件
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -72,14 +73,26 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+'''
+SecurityMiddleware:内置的安全机制，保护用户与网站的通信安全。
+SessionMiddleware:会话Session功能。
+LocaleMiddleware:国际化和本地化功能。
+CommonMiddleware:处理请求信息，规范化请求内容。
+CsrfViewMiddleware:开启CSRF防护功能。
+AuthenticationMiddleware:开启内置的用户认证系统。
+MessageMiddleware:开启内置的信息提示功能。
+XFrameOptionsMiddleware:防止恶意程序单击劫持。
+'''
 
 ROOT_URLCONF = 'python222_site1.urls'
 
+
+#       项目的模板
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        'APP_DIRS': True,
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',       # 模板引擎
+        'DIRS': [os.path.join(BASE_DIR, 'templates'),os.path.join(BASE_DIR, 'helloWorld','templates')],      # 模板目录
+        'APP_DIRS': True,       # 是否启用app模板
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -91,16 +104,25 @@ TEMPLATES = [
     },
 ]
 
+
+
 WSGI_APPLICATION = 'python222_site1.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+
+
+#    项目的数据库
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': 'db_python222',
+    'USER': 'root',
+    'PASSWORD': '11111111',
+    'HOST': 'localhost',
+    'PORT': '3306'
     }
 }
 
@@ -139,9 +161,39 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
+# 项目的静态文件目录
 STATIC_URL = 'static/'
+
+# 项目的静态文件目录
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',  # 静态文件目录
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# 设置媒体路由
+MEDIA_URL = 'media/'
+
+# 设置media目录的完整路径
+MEDIA_ROOT = BASE_DIR / 'media'
+
+
+
+
+
+"""
+// 1、登录
+mysql -u root -p
+password:
+ 
+// 2、修改账户密码加密规则并更新用户密码
+ALTER USER 'root'@'localhost' IDENTIFIED BY '11111111' PASSWORD EXPIRE NEVER;   #修改加密规则
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '11111111';   #更新一下用户的密码
+ 
+// 3、刷新权限
+FLUSH PRIVILEGES; 
+"""
