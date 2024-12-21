@@ -45,9 +45,10 @@ def index2(request):
     
     # return JsonResponse({'name':'张三','age':18})
     
-    content_value = {'name':'张三','age':18}    
-    return render(request, "index.html",context=content_value)
+    # content_value = {'name':'张三','age':18}    
+    # return render(request, "index.html",context=content_value)
 
+    return redirect("https://www.bilibili.com/",permanent=True)
 
 
 def blog(request, id):
