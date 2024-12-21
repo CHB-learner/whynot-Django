@@ -4,15 +4,12 @@ Date: 2024-12-21 11:31:31
 FilePath: /whynot-Django/python222_site1/python222_site1/urls.py
 Description: 
 
-项目的路由设置，设置网站的具体网址内容；
-项目的路由设置，设置网站的具体网址内容；
-项目的路由设置，设置网站的具体网址内容；
-项目的路由设置，设置网站的具体网址内容；
-项目的路由设置，设置网站的具体网址内容；
+~请在这里写文件功能描述~
 
 
 Copyright (c) 2024 by CHB-learner 211430209@mail.dhu.edu.cn, All Rights Reserved. 
 '''
+
 """
 URL configuration for python222_site1 project.
 
@@ -29,9 +26,18 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path
 
+import helloWorld.views
+
+
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls    ),
+    path("index/", helloWorld.views.index),
 ]
+
+
+
