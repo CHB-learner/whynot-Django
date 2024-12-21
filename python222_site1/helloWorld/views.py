@@ -26,11 +26,27 @@ from django.shortcuts import render
 from django.http import HttpResponse
 # Create your views here.
 from django.shortcuts import redirect
+from django.http import HttpResponseNotFound
+from django.http import JsonResponse
+
 
 def index(request):
     print('页面请求处理中')
     # print("helloWorld/views.py")
     return render(request, "index.html")
+
+
+
+def index2(request):
+    # html = "<font color='red'>  我是index2页面 </font>"
+    # return HttpResponse(html, status=200)
+    
+    # return HttpResponseNotFound()
+    
+    # return JsonResponse({'name':'张三','age':18})
+    
+    content_value = {'name':'张三','age':18}    
+    return render(request, "index.html",context=content_value)
 
 
 

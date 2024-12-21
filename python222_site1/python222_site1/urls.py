@@ -37,15 +37,25 @@ from django.urls import re_path
 from django.views.static import serve
 from django.views.generic import RedirectView
 
+
+from django.urls import include
+# import user.views
+# import order.views
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("index/", helloWorld.views.index),
-    path('redirectTo',RedirectView.as_view(url='index/')),
-    path("blog/<int:id>", helloWorld.views.blog),
-    re_path('blog3/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<day>[0-9]{2})',helloWorld.views.blog3),
-    # 配置媒体文件的路由地址
-    re_path('media/(?P<path>.*)', serve, {'document_root': settings.MEDIA_ROOT},name='media')
+    path("index2/", helloWorld.views.index2),
+    # path('redirectTo',RedirectView.as_view(url='index/')),
+    # path("blog/<int:id>", helloWorld.views.blog),
+    # re_path('blog3/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<day>[0-9]{2})',helloWorld.views.blog3),
+    # # 配置媒体文件的路由地址
+    # re_path('media/(?P<path>.*)', serve, {'document_root': settings.MEDIA_ROOT},name='media')
+    path('user/', include(('user.urls','user'),namespace='user')),
+    path('order/', include(('order.urls','order'),namespace='order')),
 ]
+
+
 
 
 
