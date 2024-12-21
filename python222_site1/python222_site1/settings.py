@@ -26,34 +26,41 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+#   项目的根目录        / 项目的子目录          
+BASE_DIR = Path(__file__).resolve().parent.parent       # 项目的根目录
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+#       项目的密钥
 SECRET_KEY = 'django-insecure-!h10fgrj7hm_kp4+tsi=*!x)iwks+%x5w5050!2+7+zj@verrp'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+#       项目的调试模式
 DEBUG = True
 
+
+#       项目的允许访问的主机
 ALLOWED_HOSTS = []
 
 
 # Application definition
-
+#       项目的应用
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.admin',# 管理员
+    'django.contrib.auth',# 认证
+    'django.contrib.contenttypes',# 内容类型
+    'django.contrib.sessions',# 会话
+    'django.contrib.messages',# 消息
+    'django.contrib.staticfiles',# 静态文件
     'helloWorld.apps.HelloworldConfig',  # 注册helloWorld应用
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -65,12 +72,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
 ROOT_URLCONF = 'python222_site1.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
