@@ -1,3 +1,18 @@
+'''
+Author: CHB-learner 211430209@mail.dhu.edu.cn
+Date: 2024-12-21 11:31:31
+FilePath: /whynot-Django/python222_site1/python222_site1/settings.py
+Description: 
+
+项目的配置文件，项目的所有功能都需要在该文件中进行配置；
+项目的配置文件，项目的所有功能都需要在该文件中进行配置；
+项目的配置文件，项目的所有功能都需要在该文件中进行配置；
+项目的配置文件，项目的所有功能都需要在该文件中进行配置；
+项目的配置文件，项目的所有功能都需要在该文件中进行配置；
+
+
+Copyright (c) 2024 by CHB-learner 211430209@mail.dhu.edu.cn, All Rights Reserved. 
+'''
 """
 Django settings for python222_site1 project.
 

@@ -1,3 +1,14 @@
+'''
+Author: CHB-learner 211430209@mail.dhu.edu.cn
+Date: 2024-12-21 11:31:31
+FilePath: /whynot-Django/python222_site1/manage.py
+Description: 
+
+~请在这里写文件功能描述~
+
+
+Copyright (c) 2024 by CHB-learner 211430209@mail.dhu.edu.cn, All Rights Reserved. 
+'''
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
 import os

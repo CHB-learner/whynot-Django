@@ -1,3 +1,18 @@
+'''
+Author: CHB-learner 211430209@mail.dhu.edu.cn
+Date: 2024-12-21 11:31:31
+FilePath: /whynot-Django/python222_site1/python222_site1/urls.py
+Description: 
+
+项目的路由设置，设置网站的具体网址内容；
+项目的路由设置，设置网站的具体网址内容；
+项目的路由设置，设置网站的具体网址内容；
+项目的路由设置，设置网站的具体网址内容；
+项目的路由设置，设置网站的具体网址内容；
+
+
+Copyright (c) 2024 by CHB-learner 211430209@mail.dhu.edu.cn, All Rights Reserved. 
+'''
 """
 URL configuration for python222_site1 project.
 
