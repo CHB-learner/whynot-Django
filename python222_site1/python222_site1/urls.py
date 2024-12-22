@@ -39,6 +39,7 @@ from django.views.generic import RedirectView
 
 
 from django.urls import include
+
 # import user.views
 # import order.views
 
@@ -62,6 +63,8 @@ urlpatterns = [
     path('login/',helloWorld.views.login),
     path('to_upload/',helloWorld.views.to_upload),
     path('upload/',helloWorld.views.upload),
+    # path('student/list.html',helloWorld.views.List.as_view()),
+    path('student/list/', helloWorld.views.List.as_view())
 ]
 
 

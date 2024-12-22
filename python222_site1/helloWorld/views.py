@@ -189,3 +189,20 @@ def upload(request):
     else:
         return HttpResponse("上传失败")
 
+
+from django.views.generic import ListView   
+from helloWorld.models import StudentInfo
+
+class List(ListView):
+    # 设置模版文件
+    template_name = 'student/list.html'
+    # 设置模型外的数据
+    extra_context = {'title': '学生信息列表'}
+    # 查询结果集
+    queryset = StudentInfo.objects.all()
+    
+    # 每页展示5条数据
+    paginate_by = 5
+    # 设置上下文对象名称
+    context_object_name = 'student_list'
+    print('queryset:',queryset)
