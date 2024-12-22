@@ -22,9 +22,9 @@ from helloWorld.forms import StudentForm
 from django.views.generic.edit import DeleteView
 
 def index(request):
-    print('页面请求处理中')
-    # print("helloWorld/views.py")
-    return render(request, "index.html")
+    str = "俺是 模板引擎 字符串"
+    content_value = {'msg':str}
+    return render(request, "index.html",context=content_value)
 
 
 
