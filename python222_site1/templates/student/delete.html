@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <style>
+        .inputClass {
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h3>{{ title }}</h3>
+    <form method="post">
+        {% csrf_token %}
+        您确定要删除id: {{ student.id }} 的学生信息吗？
+        <input type="submit" value="确定删除">
+    </form>
+</body>
+</html>

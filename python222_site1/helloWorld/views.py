@@ -10,17 +10,6 @@ Description:
 Copyright (c) 2024 by CHB-learner 211430209@mail.dhu.edu.cn, All Rights Reserved. 
 '''
 
-"""
-Author: CHB-learner 211430209@mail.dhu.edu.cn
-Date: 2024-12-21 12:53:39
-FilePath: /whynot-Django/python222_site1/helloWorld/views.py
-Description: 
-
-~请在这里写文件功能描述~
-
-
-Copyright (c) 2024 by CHB-learner 211430209@mail.dhu.edu.cn, All Rights Reserved. 
-"""
 
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -28,8 +17,9 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.http import HttpResponseNotFound
 from django.http import JsonResponse
-
-
+from django.views.generic.edit import CreateView
+from helloWorld.forms import StudentForm
+from django.views.generic.edit import DeleteView
 
 def index(request):
     print('页面请求处理中')
@@ -234,8 +224,27 @@ class Detail(DetailView):
     context_object_name = 'student'
     print('queryset:',queryset)
 
-from django.views.generic.edit import CreateView
-from helloWorld.forms import StudentForm
+
+from django.views.generic.edit import UpdateView
+class Update(UpdateView):
+    # 设置模版文件
+    template_name = 'student/update.html'
+    
+    # 设置模型外的数据
+    extra_context = {'title': '学生信息修改'}
+    
+    # 设置查询模型
+    model = StudentInfo
+    
+    # 查询结果集
+    form_class = StudentForm
+    
+    # 更新完成后跳转的页面
+    success_url = '/student/list'
+
+
+
+
 class Create(CreateView):
     # 设置模版文件
     template_name = 'student/create.html'
@@ -244,4 +253,26 @@ class Create(CreateView):
     
     form_class = StudentForm
     
+    success_url = '/student/list'
+
+
+
+class Delete(DeleteView):
+    # 设置模版文件
+    template_name = 'student/delete.html'
+    
+    # 设置模型外的数据
+    extra_context = {'title': '学生信息删除'}
+    
+    # 设置查询模型
+    model = StudentInfo
+    
+    # 查询结果集
+    queryset = StudentInfo.objects.all()
+    
+    # 设置上下文对象名称
+    context_object_name = 'student'
+    print('queryset:',queryset)
+    
+    # 删除完成后跳转的页面
     success_url = '/student/list'

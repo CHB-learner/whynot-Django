@@ -21,6 +21,8 @@
             <td>{{ student.age }}</td>
             <td>
                 <a href="/student/{{ student.id }}">查看详情</a>
+                <a href="/student/update/{{ student.id }}">修改</a>
+                <a href="/student/delete/{{ student.id }}">删除</a>
             </td>
         </tr>
         {% endfor %}
