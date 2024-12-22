@@ -60,6 +60,8 @@ urlpatterns = [
     path('post/',helloWorld.views.post_test),
     path('to_login/',helloWorld.views.to_login),
     path('login/',helloWorld.views.login),
+    path('to_upload/',helloWorld.views.to_upload),
+    path('upload/',helloWorld.views.upload),
 ]
 
 

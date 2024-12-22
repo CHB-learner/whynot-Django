@@ -172,16 +172,20 @@ def login(request):
 def to_upload(request):
     return render(request, "upload.html")
 
+
+import  os
+
 upload_path = "/Users/hbc/CHANG_THINKING/whynot-Django/python222_site1/upload"
 # 上传文件
 def upload(request):        
     file = request.FILES.get("myfile")
     if file:
         print(file.name)
-        with open(os.path.join(upload_path,file.name), 'wb') as f:
+        with open(os.path.join(upload_path,file.name), 'wb+') as f:
             for chunk in file.chunks():
                 f.write(chunk)
-        return HttpResponse("上传成功")
+            f.close()
+        return HttpResponse("文件上传成功")
     else:
         return HttpResponse("上传失败")
 
