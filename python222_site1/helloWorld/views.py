@@ -148,3 +148,18 @@ def post_test(request):
 
 def to_login(request):
     return render(request, "login.html")
+
+
+def login(request):
+    user_name = request.POST.get("user_name")
+    pwd = request.POST.get("pwd")
+    print(user_name, pwd)
+    
+    if user_name == 'ccc' and pwd  == 'ccc':
+        request.session['user_name'] = user_name
+        print('session:', request.session['user_name'])
+        print('ccc登录成功')
+        return render(request, "main.html")
+    else:
+        print('登录失败')
+        return render(request, "login.html", context = {"error_info":"用户名或密码错误"})
