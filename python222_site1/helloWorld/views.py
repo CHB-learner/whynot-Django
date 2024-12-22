@@ -233,3 +233,15 @@ class Detail(DetailView):
     # 设置上下文对象名称
     context_object_name = 'student'
     print('queryset:',queryset)
+
+from django.views.generic.edit import CreateView
+from helloWorld.forms import StudentForm
+class Create(CreateView):
+    # 设置模版文件
+    template_name = 'student/create.html'
+    
+    extra_context = {'title': '学生表单添加'}
+    
+    form_class = StudentForm
+    
+    success_url = '/student/list'

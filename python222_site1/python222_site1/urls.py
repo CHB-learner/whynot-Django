@@ -65,8 +65,10 @@ urlpatterns = [
     path('upload/',helloWorld.views.upload),
     # path('student/list.html',helloWorld.views.List.as_view()),
     path('student/list/', helloWorld.views.List.as_view()),
-    path('student/<int:pk>/', helloWorld.views.Detail.as_view())
+    path('student/<int:pk>/', helloWorld.views.Detail.as_view()),
+    path('student/create/', helloWorld.views.Create.as_view()),
 ]
+
 
 
 
