@@ -143,3 +143,8 @@ def post_test(request):
     print(request.POST.get("aaa", "7777"))
     
     return HttpResponse("http post ok")
+
+
+
+def to_login(request):
+    return render(request, "login.html")

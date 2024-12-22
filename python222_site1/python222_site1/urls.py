@@ -58,6 +58,7 @@ urlpatterns = [
     path('download3/',helloWorld.views.download_file3),
     path('get/',helloWorld.views.get_test),
     path('post/',helloWorld.views.post_test),
+    path('login/',helloWorld.views.to_login),
 ]
 
 
