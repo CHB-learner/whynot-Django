@@ -53,6 +53,9 @@ urlpatterns = [
     # re_path('media/(?P<path>.*)', serve, {'document_root': settings.MEDIA_ROOT},name='media')
     path('user/', include(('user.urls','user'),namespace='user')),
     path('order/', include(('order.urls','order'),namespace='order')),
+    path('download1/',helloWorld.views.download_file1),
+    path('download2/',helloWorld.views.download_file2),
+    path('download3/',helloWorld.views.download_file3),
 ]
 
 

@@ -60,3 +60,42 @@ def blog(request, id):
 
 def blog3(request, year, month, day):
     return HttpResponse(str(year) + '/' + str(month) + '/' + str(day) + '的博客页面')
+
+
+
+
+
+#下载文件功能实现
+
+file_path = "/Users/hbc/CHANG_THINKING/whynot-Django/python222_site1/file.zip"
+
+def download_file1(request):
+    file = open(file_path, 'rb')
+    response = HttpResponse(file)
+    response['Content-Type'] = 'application/octet-stream'
+    response['Content-Disposition'] = 'attachment;filename="file.zip"'
+    
+    return response
+
+
+
+from django.http import StreamingHttpResponse
+def download_file2(request):
+    file = open(file_path, 'rb')
+    response = StreamingHttpResponse(file)
+    response['Content-Type'] = 'application/octet-stream'
+    response['Content-Disposition'] = 'attachment;filename="file.zip"'
+    
+    
+    return response
+
+from django.http import FileResponse
+def download_file3(request):
+    file = open(file_path, 'rb')
+    response = FileResponse(file)
+    response['Content-Type'] = 'application/octet-stream'
+    response['Content-Disposition'] = 'attachment;filename="file.zip"'
+    
+    
+    return response
+
