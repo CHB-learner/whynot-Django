@@ -152,7 +152,8 @@ AUTH_PASSWORD_VALIDATORS = [ # 密码验证器
 
 LANGUAGE_CODE = 'en-us' # 语言代码
 
-TIME_ZONE = 'UTC' # 时区
+# TIME_ZONE = 'UTC' # 时区
+TIME_ZONE = 'Asia/Shanghai' # 时区
 
 USE_I18N = True
 

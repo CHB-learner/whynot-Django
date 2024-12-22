@@ -159,7 +159,13 @@ def login(request):
         request.session['user_name'] = user_name
         print('session:', request.session['user_name'])
         print('ccc登录成功')
-        return render(request, "main.html")
+        response = render(request, "main.html")
+        response.set_cookie("remember_me", True)
+        
+        # return render(request, "main.html")
+        return response
     else:
         print('登录失败')
         return render(request, "login.html", context = {"error_info":"用户名或密码错误"})
+
+
