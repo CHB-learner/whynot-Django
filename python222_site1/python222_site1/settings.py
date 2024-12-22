@@ -184,17 +184,5 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 
 
-
-
-"""
-// 1、登录
-mysql -u root -p
-password:
- 
-// 2、修改账户密码加密规则并更新用户密码
-ALTER USER 'root'@'localhost' IDENTIFIED BY '11111111' PASSWORD EXPIRE NEVER;   #修改加密规则
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '11111111';   #更新一下用户的密码
- 
-// 3、刷新权限
-FLUSH PRIVILEGES; 
-"""
+# 设置是否在URL后面添加斜杠
+# APPEND_SLASH = False

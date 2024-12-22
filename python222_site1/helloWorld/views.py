@@ -38,6 +38,8 @@ def index(request):
 
 
 def index2(request):
+    return render(request, "http.html")
+
     # html = "<font color='red'>  我是index2页面 </font>"
     # return HttpResponse(html, status=200)
     
@@ -48,7 +50,7 @@ def index2(request):
     # content_value = {'name':'张三','age':18}    
     # return render(request, "index.html",context=content_value)
 
-    return redirect("https://www.bilibili.com/",permanent=True)
+    # return redirect("https://www.bilibili.com/",permanent=True)
 
 
 def blog(request, id):
@@ -99,3 +101,45 @@ def download_file3(request):
     
     return response
 
+
+
+
+
+
+def get_test(request):
+    """
+    get请求测试
+    :param request:
+    :return:
+    """
+    print('*'*50)
+    print('method:', request.method)  # 请求方式
+    # 常用属性
+    print('content_type:', request.content_type)
+    print('content_params:', request.content_params)
+    print('COOKIES:', request.COOKIES)
+    print('scheme:', request.scheme)
+    # 常用方法
+    print('is_secure:', request.is_secure())
+    print('host:', request.get_host())
+    print('full_path:', request.get_full_path())
+    
+    
+    print('name:', request.GET.get("name"))
+    print('pwd:', request.GET.get("pwd"))
+    print('aaa:', request.GET.get("aaa", "666"))
+    print('*'*50)
+    return HttpResponse("http get ok")
+
+def post_test(request):
+    """
+    post请求测试
+    :param request:
+    :return:
+    """
+    print(request.method) # 请求方式
+    print(request.POST.get("name"))
+    print(request.POST.get("pwd"))
+    print(request.POST.get("aaa", "7777"))
+    
+    return HttpResponse("http post ok")
