@@ -169,3 +169,19 @@ def login(request):
         return render(request, "login.html", context = {"error_info":"用户名或密码错误"})
 
 
+def to_upload(request):
+    return render(request, "upload.html")
+
+upload_path = "/Users/hbc/CHANG_THINKING/whynot-Django/python222_site1/upload"
+# 上传文件
+def upload(request):        
+    file = request.FILES.get("myfile")
+    if file:
+        print(file.name)
+        with open(os.path.join(upload_path,file.name), 'wb') as f:
+            for chunk in file.chunks():
+                f.write(chunk)
+        return HttpResponse("上传成功")
+    else:
+        return HttpResponse("上传失败")
+
