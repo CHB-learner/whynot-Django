@@ -44,7 +44,7 @@ def index(request):
     
     content_value = {'msg':str,'msg2':myDict,'msg3':zhangsan,'msg4':list_data,'msg5':myTuple}
     
-    # 创建一个对象 aa
+    # 创建一个对象 
     return render(request, "index.html",context=content_value)
 
 
