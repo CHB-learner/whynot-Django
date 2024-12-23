@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Current Time</title>
+    <script>
+        function updateTime() {
+            // 获取当前时间并更新页面内容
+            let now = new Date();
+            document.getElementById('time').textContent = 'The current time is: ' + now.toLocaleTimeString();
+            pprint('/n');
+            pprint(now.toLocaleTimeString());
+        }
+        // 每秒调用一次 updateTime 函数
+        setInterval(updateTime, 1000);
+    </script>
+</head>
+<body>
+    <h1>Current Time</h1>
+    <p id="time">The current time is: {{ time }}</p>
+</body>
+</html>

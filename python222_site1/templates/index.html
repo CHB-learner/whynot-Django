@@ -58,5 +58,14 @@
 {% with info=msg %}
   {{ info }}
 {% endwith %}
+
+
+
+<p>内置过滤器</p>
+capfirst:{{ msg | capfirst }}<br>
+length:{{ msg | length }}<br>
+date:{{ date }} - >> {{ date | date:'Y-m-d H:i:s' }}
+
+
 </body>
 </html>

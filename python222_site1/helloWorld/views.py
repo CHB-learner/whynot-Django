@@ -34,18 +34,31 @@ class Person:
         self.age = age
 
 
-def index(request):
-    zhangsan = Person('张三',15)
-    # str
-    str = "俺是 模板引擎 字符串"
+# def index(request):
+#     zhangsan = Person('张三',15)
+#     # str
+#     str = "俺是 模板引擎 字符串"
+#     myDict = {"tom": '666', 'cat': '999', 'wzw': '333'}
+#     list_data = ['A','B','C']
+#     myTuple = ("python", 222, 3.14, False)
+    
+#     content_value = {'msg':str,'msg2':myDict,'msg3':zhangsan,'msg4':list_data,'msg5':myTuple}
+    
+#     # 创建一个对象 
+#     return render(request, "index.html",context=content_value)
+
+def index(request): #测试filter
+    str = "hello"
+    date = datetime.datetime.now()
     myDict = {"tom": '666', 'cat': '999', 'wzw': '333'}
-    list_data = ['A','B','C']
+    # 创建一个对象 zhangsan
+    zhangsan = Person("张三", 21)
+    myList = ["java", "python", "c"]
     myTuple = ("python", 222, 3.14, False)
-    
-    content_value = {'msg':str,'msg2':myDict,'msg3':zhangsan,'msg4':list_data,'msg5':myTuple}
-    
-    # 创建一个对象 
-    return render(request, "index.html",context=content_value)
+    content_value = {"msg": str, "msg2": myDict, "msg3": zhangsan, "msg4":
+    myList, "msg5": myTuple, "date": date}
+    return render(request, 'index.html', context=content_value)
+
 
 
 
@@ -307,3 +320,16 @@ def to_course(request):
     :return:
     """
     return render(request, 'course.html')
+
+
+import datetime
+
+def time_now(request):
+    """
+    获取当前时间
+    :param request:
+    :return:
+    """
+    
+    now = datetime.datetime.now()
+    return render(request, "time_now.html", context={'time':now})

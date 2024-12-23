@@ -45,6 +45,7 @@ from django.urls import include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("time_now/", helloWorld.views.time_now),
     path('toCourse/', helloWorld.views.to_course),
     # path("index/", helloWorld.views.index),
     path('index/', helloWorld.views.index, name="index"),
