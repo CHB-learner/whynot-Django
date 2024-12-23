@@ -47,7 +47,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     # path("index/", helloWorld.views.index),
     path('index/', helloWorld.views.index, name="index"),
-    path("index2/", helloWorld.views.index2),
+    path("index2/", helloWorld.views.index2,name="index2"),
     # path('redirectTo',RedirectView.as_view(url='index/')),
     # path("blog/<int:id>", helloWorld.views.blog),
     # re_path('blog3/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<day>[0-9]{2})',helloWorld.views.blog3),

@@ -30,15 +30,17 @@
 列表：{{ msg4.0 }},{{ msg4.1 }},{{ msg4.3 }},{{ msg4.2 }}<br>
 元组：{{ msg5.0 }},{{ msg5.4 }},{{ msg5.1 }},{{ msg5.2 }},{{ msg5.3 }}
 <h3>模板标签</h3>
+
 <p>遍历for标签：</p>
 {% for item in msg4 %}
 <p>这个是第{{ forloop.counter }}次循环</p>
-{% if forloop.first %}
-<p>这个是第一项：{{ item }}</p>
-{% elif forloop.last %}
-<p>这个是最后一项：{{ item }}</p>
-{% endif %}
+  {% if forloop.first %}
+  <p>这个是第一项：{{ item }}</p>
+  {% elif forloop.last %}
+  <p>这个是最后一项：{{ item }}</p>
+  {% endif %}
 {% endfor %}
+
 <p>判断if标签：</p>
 {% if msg == '模板变量' %}
 <p>模板变量</p>
@@ -47,11 +49,14 @@
 {% else %}
 <p>其他</p>
 {% endif %}
+
 <p>url标签</p>
-<a href="{% url 'index' %}">请求index</a>
+<a href="{% url 'index2' %}">请求index2</a>
+
+
 <p>with标签</p>
 {% with info=msg %}
-{{ info }}
+  {{ info }}
 {% endwith %}
 </body>
 </html>
