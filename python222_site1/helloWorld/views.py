@@ -21,9 +21,30 @@ from django.views.generic.edit import CreateView
 from helloWorld.forms import StudentForm
 from django.views.generic.edit import DeleteView
 
+
+
+# 定义人类
+class Person:  
+    # 属性 姓名
+    name = None
+    # 属性 年龄
+    age = None
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+
 def index(request):
+    zhangsan = Person('张三',15)
+    # str
     str = "俺是 模板引擎 字符串"
-    content_value = {'msg':str}
+    myDict = {"tom": '666', 'cat': '999', 'wzw': '333'}
+    list_data = ['A','B','C']
+    myTuple = ("python", 222, 3.14, False)
+    
+    content_value = {'msg':str,'msg2':myDict,'msg3':zhangsan,'msg4':list_data,'msg5':myTuple}
+    
+    # 创建一个对象 aa
     return render(request, "index.html",context=content_value)
 
 
