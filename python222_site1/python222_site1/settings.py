@@ -92,7 +92,7 @@ ROOT_URLCONF = 'python222_site1.urls'  # 项目的路由根目录
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',       # 模板引擎
-        'DIRS': [os.path.join(BASE_DIR, 'templates'),os.path.join(BASE_DIR, 'helloWorld','templates')],      # 模板目录
+        # 'DIRS': [os.path.join(BASE_DIR, 'templates'),os.path.join(BASE_DIR, 'helloWorld','templates')],      # 模板目录
         'APP_DIRS': True,       # 是否启用app模板
         'OPTIONS': {
             'context_processors': [

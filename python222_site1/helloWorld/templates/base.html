@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>
+{% block title %}
+Python222学院
+{% endblock %}
+</title>
+</head>
+<body>
+<div id="head">
+{% comment %} <img src="http://127.0.0.1:8000/static/logo.png"/> {% endcomment %}
+</div>
+<div id="content">
+{% block content %}
+欢迎进入Python222学院
+{% endblock %}
+</div>
+<div id="footer">
+版权所有 www.python222.com
+</div>
+</body>
+</html>

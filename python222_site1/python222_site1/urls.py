@@ -45,6 +45,7 @@ from django.urls import include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path('toCourse/', helloWorld.views.to_course),
     # path("index/", helloWorld.views.index),
     path('index/', helloWorld.views.index, name="index"),
     path("index2/", helloWorld.views.index2,name="index2"),

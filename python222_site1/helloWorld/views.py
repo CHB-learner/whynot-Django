@@ -297,3 +297,13 @@ class Delete(DeleteView):
     
     # 删除完成后跳转的页面
     success_url = '/student/list'
+
+
+
+def to_course(request):
+    """
+    跳转课程页面
+    :param request:
+    :return:
+    """
+    return render(request, 'course.html')
