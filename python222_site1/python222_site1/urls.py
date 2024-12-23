@@ -45,7 +45,8 @@ from django.urls import include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("index/", helloWorld.views.index),
+    # path("index/", helloWorld.views.index),
+    path('index/', helloWorld.views.index, name="index"),
     path("index2/", helloWorld.views.index2),
     # path('redirectTo',RedirectView.as_view(url='index/')),
     # path("blog/<int:id>", helloWorld.views.blog),
