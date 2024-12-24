@@ -336,12 +336,21 @@ def time_now(request):
 
 
 from helloWorld.models import BookInfo
+from django.core.paginator import Paginator
 def bookList(request):
     """
     图书列表查询
     """
     # 查询所有信息
+    # bookList = BookInfo.objects.all()
+    # print(bookList)
+    
+    
+    # 分页查询
     bookList = BookInfo.objects.all()
-    print(bookList)
-    content_value = {"title": "图书列表", "bookList": bookList}
+    p = Paginator(bookList, 1)
+    bookListpage = p.page(1)
+    print('总记录数',BookInfo.objects.count())
+    
+    content_value = {"title": "图书列表", "bookList": bookListpage}
     return render(request, 'book/list.html', context=content_value)
