@@ -43,3 +43,10 @@ class BookInfo(models.Model):
     class Meta:
         db_table = "t_book"
         verbose_name = "图书信息" # 给模型取个直观的名字
+        
+class AccountInfo(models.Model):
+    user = models.CharField(max_length=20)
+    account = models.FloatField()
+    class Meta:
+        db_table = "t_account"
+        verbose_name = "用户账户信息" # 给模型取个直观的名字

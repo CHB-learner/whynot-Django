@@ -459,8 +459,48 @@ def delete(request, id):
     # BookInfo.objects.filter(price__gte=90).delete()
     return bookList(request)
 
+from helloWorld.models import AccountInfo
+from django.db.models import F
+from django.db import transaction
 
 
 
 
+# def transfer2(request):
+#     """
+#     模拟转账
+#     :param request:
+#     :return:
+#     """
+#     a1 = AccountInfo.objects.filter(user='张三')
+#     a1.update(account=F('account') + 100)
+#     a2 = AccountInfo.objects.filter(user='李四')
+#     a2.update(account=F('account') - 100)
+    
+#     return HttpResponse("OK")
 
+
+
+
+@transaction.atomic
+def transfer2(request):
+    """
+    模拟转账
+    :param request:
+    :return:
+    """
+    # 开启事务
+    sid = transaction.savepoint()
+    try:
+        a1 = AccountInfo.objects.filter(user='张三')
+        a1.update(account=F('account') + 100)
+        a2 = AccountInfo.objects.filter(user='李四')
+        a2.update(account=F('account') - 100 )
+        # 提交事务 （如不设置，当程序执行完成后，会自动提交事务）
+        transaction.savepoint_commit(sid)
+        return HttpResponse("转账成功")
+    except Exception as e:
+        print("异常信息：", e)
+        # 事务回滚
+        transaction.savepoint_rollback(sid)
+        return HttpResponse("转账失败")   
