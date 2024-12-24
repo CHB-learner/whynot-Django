@@ -348,9 +348,66 @@ def bookList(request):
     
     # 分页查询
     bookList = BookInfo.objects.all()
-    p = Paginator(bookList, 1)
+    p = Paginator(bookList,10)
     bookListpage = p.page(1)
     print('总记录数',BookInfo.objects.count())
     
     content_value = {"title": "图书列表", "bookList": bookListpage}
     return render(request, 'book/list.html', context=content_value)
+
+
+from helloWorld.models import BookTypeInfo
+def bookList2(request):
+    """
+    多表查询 正常查询 和反向查询
+    :param request:
+    :return:
+    """
+    # 正向查询
+    book: BookInfo = BookInfo.objects.filter(id=2).first()
+    print(book.bookType.bookTypeName)
+    # 反向查询
+    bookType = BookTypeInfo.objects.filter(id=1).first()
+    print(bookType.bookinfo_set.first().bookName)
+    print(bookType.bookinfo_set.all())
+    content_value = {"title": "图书列表"}
+    
+    return render(request, 'book/list.html',content_value)
+
+
+
+def preAdd(request):
+    """
+    预处理，添加操作
+    :param request:
+    :return:
+    """
+    bookTypeList = BookTypeInfo.objects.all()
+    print(bookTypeList)
+    content_value = {"title": "图书添加", "bookTypeList": bookTypeList}
+    return render(request, 'book/add.html', context=content_value)
+
+
+
+def add(request):
+    """
+    图书添加
+    :param request:
+    :return:
+    """
+    # print(request.POST.get("bookName"))
+    # print(request.POST.get("publishDate"))
+    # print(request.POST.get("bookType_id"))
+    # print(request.POST.get("price"))
+    book = BookInfo()
+    book.bookName = request.POST.get("bookName")
+    book.publishDate = request.POST.get("publishDate")
+    book.bookType_id = request.POST.get("bookType_id")
+    book.price = request.POST.get("price")
+    book.save()
+    # 数据添加后，获取新增数据的主键id
+    print(book.id)
+    return bookList(request)
+
+
+
