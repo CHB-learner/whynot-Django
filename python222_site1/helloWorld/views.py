@@ -504,3 +504,20 @@ def transfer2(request):
         # 事务回滚
         transaction.savepoint_rollback(sid)
         return HttpResponse("转账失败")   
+
+from helloWorld.forms import BookInfoForm
+def preAdd2(request):
+    """
+    预处理，添加操作 使用form表单
+    :param request:
+    :return:
+    """
+    form = BookInfoForm()
+    context_value = {"title": "图书添加", "form": form}
+    return render(request, 'book/add2.html', context_value)
+
+
+
+
+
+
