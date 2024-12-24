@@ -516,7 +516,16 @@ def preAdd2(request):
     context_value = {"title": "图书添加", "form": form}
     return render(request, 'book/add2.html', context_value)
 
-
+from helloWorld.forms import BookInfoModelForm
+def preAdd3(request):
+    """
+    预处理，添加操作 使用modelForm表单
+    :param request:
+    :return:
+    """
+    form = BookInfoModelForm()
+    context_value = {"title": "图书添加", "form": form}
+    return render(request, 'book/add2.html', context_value)
 
 
 

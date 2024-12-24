@@ -33,6 +33,10 @@ class BookTypeInfo(models.Model):
     class Meta:
         db_table = "t_bookType"
         verbose_name = "图书类别信息" # 给模型取个直观的名字
+    
+    def __str__(self): # 重写__str__方法
+        # 返回图书类别名称
+        return  self.bookTypeName
 
 class BookInfo(models.Model):
     id = models.AutoField(primary_key=True)
@@ -43,7 +47,10 @@ class BookInfo(models.Model):
     class Meta:
         db_table = "t_book"
         verbose_name = "图书信息" # 给模型取个直观的名字
-        
+    
+
+
+    
 class AccountInfo(models.Model):
     user = models.CharField(max_length=20)
     account = models.FloatField()

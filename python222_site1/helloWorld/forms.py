@@ -73,6 +73,7 @@ class BookInfoForm(Form):
 
 
 from helloWorld.models import BookInfo
+
 class BookInfoModelForm(ModelForm):
     # 配置中心
     class Meta:
@@ -92,3 +93,6 @@ class BookInfoModelForm(ModelForm):
         help_texts = {
         'bookName': '请输入图书名称'
         }
+
+
+
