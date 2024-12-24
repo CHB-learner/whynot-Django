@@ -333,3 +333,15 @@ def time_now(request):
     
     now = datetime.datetime.now()
     return render(request, "time_now.html", context={'time':now})
+
+
+from helloWorld.models import BookInfo
+def bookList(request):
+    """
+    图书列表查询
+    """
+    # 查询所有信息
+    bookList = BookInfo.objects.all()
+    print(bookList)
+    content_value = {"title": "图书列表", "bookList": bookList}
+    return render(request, 'book/list.html', context=content_value)
