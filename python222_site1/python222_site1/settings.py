@@ -90,15 +90,15 @@ ROOT_URLCONF = 'python222_site1.urls'  # 项目的路由根目录
 
 #       项目的模板
 TEMPLATES = [
-        {
-        'BACKEND': 'django.template.backends.jinja2.Jinja2',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
-        'APP_DIRS': True,
-        'OPTIONS': {
-        'environment': 'helloWorld.Jinja3.environment'
-        },
-    },
+    #     {
+    #     'BACKEND': 'django.template.backends.jinja2.Jinja2',
+    #     'DIRS': [BASE_DIR / 'templates']
+    #     ,
+    #     'APP_DIRS': True,
+    #     'OPTIONS': {
+    #     'environment': 'helloWorld.Jinja3.environment'
+    #     },
+    # },
 
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',       # 模板引擎
