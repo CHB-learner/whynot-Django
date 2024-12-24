@@ -402,7 +402,7 @@ def add(request):
     book = BookInfo()
     book.bookName = request.POST.get("bookName")
     book.publishDate = request.POST.get("publishDate")
-    book.bookType_id = request.POST.get("bookType_id")
+    book.bookType_id = request.POST.get("bookType")  #bookType_id
     book.price = request.POST.get("price")
     book.save()
     # 数据添加后，获取新增数据的主键id
