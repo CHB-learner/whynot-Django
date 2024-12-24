@@ -65,6 +65,10 @@ INSTALLED_APPS = [
 #       项目的中间件
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    
+    # 使用中文
+    'django.middleware.locale.LocaleMiddleware',
+    
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',

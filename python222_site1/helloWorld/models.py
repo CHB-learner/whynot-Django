@@ -25,8 +25,10 @@ class StudentInfo(models.Model):
     
     class Meta:
         db_table = 'student_info'
-        
-        
+
+
+
+
 class BookTypeInfo(models.Model):
     id = models.AutoField(primary_key=True)
     bookTypeName = models.CharField(max_length=20)
@@ -37,6 +39,8 @@ class BookTypeInfo(models.Model):
     def __str__(self): # 重写__str__方法
         # 返回图书类别名称
         return  self.bookTypeName
+
+
 
 class BookInfo(models.Model):
     id = models.AutoField(primary_key=True)
