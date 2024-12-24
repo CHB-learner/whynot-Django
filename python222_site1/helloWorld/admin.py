@@ -21,4 +21,19 @@ from helloWorld.models import BookTypeInfo
 # Register your models here.
 
 # 方法一，将模型直接注册到admin后台
-admin.site.register(BookTypeInfo)
+# admin.site.register(BookTypeInfo)
+
+from helloWorld.models import BookInfo
+from django.contrib import admin
+# 方法二，自定义类，继承ModelAdmin
+@admin.register(BookInfo)
+class BookInfoAdmin(admin.ModelAdmin):
+    # 设置显示的字段
+    list_display = ['id', 'bookName', 'price', 'publishDate', 'bookType']
+    search_fields = ['bookName']
+
+
+# 设置网站标题和应用标题
+admin.site.site_title = 'AAA管理系统'
+admin.site.site_header = 'BBB管理系统'
+admin.site.index_title = 'CCC管理系统'

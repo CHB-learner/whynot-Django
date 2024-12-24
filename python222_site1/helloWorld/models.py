@@ -61,3 +61,5 @@ class AccountInfo(models.Model):
     class Meta:
         db_table = "t_account"
         verbose_name = "用户账户信息" # 给模型取个直观的名字
+
+
