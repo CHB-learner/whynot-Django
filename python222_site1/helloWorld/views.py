@@ -410,4 +410,33 @@ def add(request):
     return bookList(request)
 
 
+def preUpdate(request, id):
+    """
+    预处理，修改操作
+    :param request:
+    :return:
+    """
+    print("id:", id)
+    book = BookInfo.objects.get(id=id)
+    print(book)
+    bookTypeList = BookTypeInfo.objects.all()
+    print(bookTypeList)
+    content_value = {"title": "图书修改", "bookTypeList": bookTypeList, "book":
+    book}
+    return render(request, 'book/edit.html', context=content_value)
 
+
+def update(request):
+    """
+    图书修改
+    :param request:
+    :return:
+    """
+    book = BookInfo()
+    book.id = request.POST.get("id")
+    book.bookName = request.POST.get("bookName")
+    book.publishDate = request.POST.get("publishDate")
+    book.bookType_id = request.POST.get("bookType_id")
+    book.price = request.POST.get("price")
+    book.save()
+    return bookList(request)
