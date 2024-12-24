@@ -47,6 +47,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('book/preAdd', helloWorld.views.preAdd),
     path('book/add', helloWorld.views.add),
+    path('book/delete/<int:id>', helloWorld.views.delete),
     
     path('book/preUpdate/<int:id>', helloWorld.views.preUpdate),
     path('book/update', helloWorld.views.update),

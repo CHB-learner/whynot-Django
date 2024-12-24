@@ -439,4 +439,28 @@ def update(request):
     book.bookType_id = request.POST.get("bookType_id")
     book.price = request.POST.get("price")
     book.save()
+    
+    # return bookList(request)
+    return redirect('/book/list')
+
+
+
+def delete(request, id):
+    """
+    图书删除
+    :param request:
+    :return:
+    """
+    # 删除所有数据
+    # BookInfo.objects.all().delete()
+    # 删除指定id数据
+    BookInfo.objects.get(id=id).delete()
+    # 根据条件删除多条数据
+    # BookInfo.objects.filter(price__gte=90).delete()
     return bookList(request)
+
+
+
+
+
+

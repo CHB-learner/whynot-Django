@@ -18,16 +18,17 @@
 </tr>
 {% for book in bookList %}
 <tr>
-<td>{{ book.id }}</td>
-<td>{{ book.bookName }}</td>
-<td>{{ book.price }}</td>
-<td>{{ book.publishDate | date:'Y-m-d' }}</td>
-<td>{{ book.bookType.bookTypeName }}</td>
-<td>
-<a href="/book/preUpdate/{{ book.id }}">修改</a>
-</td>
-</tr>
-{% endfor %}
-</table>
-</body>
-</html>
+    <td>{{ book.id }}</td>
+    <td>{{ book.bookName }}</td>
+    <td>{{ book.price }}</td>
+    <td>{{ book.publishDate | date:'Y-m-d' }}</td>
+    <td>{{ book.bookType.bookTypeName }}</td>
+    <td>
+    <a href="/book/preUpdate/{{ book.id }}">修改</a>
+    <a href="/book/delete/{{ book.id }}">删除</a>
+    </td>
+    </tr>
+    {% endfor %}
+    </table>
+    </body>
+    </html>
