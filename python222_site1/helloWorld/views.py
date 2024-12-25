@@ -20,8 +20,59 @@ from django.http import JsonResponse
 from django.views.generic.edit import CreateView
 from helloWorld.forms import StudentForm
 from django.views.generic.edit import DeleteView
+from django.contrib.auth.models import User
+from django.contrib import auth
 
 
+
+def to_register(request):
+    # 跳转注册页面
+    return render(request, "auth/register.html")
+
+def register(request):
+    """
+    用户注册
+    :param request:
+    :return:
+    """
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    # 检验用户名是否存在
+    result = User.objects.filter(username=username)
+    
+    if result:
+        return render(request, 'auth/register.html',context={"errorInfo": "该用户名已存在", "username":username, "password": password})
+    
+    User.objects.create_user(username=username, password=password)
+    return render(request, "auth/login.html")
+
+
+def to_login(request):
+    """
+    跳转登录页面
+    :param request:
+    :return:
+    """
+    return render(request, 'auth/login.html')
+
+def login(request):
+    """
+    用户登录
+    :param request:
+    :return:
+    """
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    resUser = auth.authenticate(username=username, password=password)
+    if resUser and resUser.is_active:
+        print(resUser, type(resUser))
+        # 用户登录成功之后（返回给客户端登录的凭证或者说是令牌、随机字符串）
+        auth.login(request, resUser)
+        return render(request, 'auth/index.html')
+    else:
+        return render(request, 'auth/login.html',
+        context={"errorInfo": "用户名或者密码错误", "username":
+        username, "password": password})
 
 # 定义人类
 class Person:  
@@ -171,27 +222,27 @@ def post_test(request):
 
 
 
-def to_login(request):
-    return render(request, "login.html")
+# def to_login(request):
+#     return render(request, "login.html")
 
 
-def login(request):
-    user_name = request.POST.get("user_name")
-    pwd = request.POST.get("pwd")
-    print(user_name, pwd)
+# def login(request):
+#     user_name = request.POST.get("user_name")
+#     pwd = request.POST.get("pwd")
+#     print(user_name, pwd)
     
-    if user_name == 'ccc' and pwd  == 'ccc':
-        request.session['user_name'] = user_name
-        print('session:', request.session['user_name'])
-        print('ccc登录成功')
-        response = render(request, "main.html")
-        response.set_cookie("remember_me", True)
+#     if user_name == 'ccc' and pwd  == 'ccc':
+#         request.session['user_name'] = user_name
+#         print('session:', request.session['user_name'])
+#         print('ccc登录成功')
+#         response = render(request, "main.html")
+#         response.set_cookie("remember_me", True)
         
-        # return render(request, "main.html")
-        return response
-    else:
-        print('登录失败')
-        return render(request, "login.html", context = {"error_info":"用户名或密码错误"})
+#         # return render(request, "main.html")
+#         return response
+#     else:
+#         print('登录失败')
+#         return render(request, "login.html", context = {"error_info":"用户名或密码错误"})
 
 
 def to_upload(request):

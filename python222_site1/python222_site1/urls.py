@@ -49,6 +49,13 @@ urlpatterns = [
     path('auth/toRegister', helloWorld.views.to_register),
     # 提交注册请求
     path('auth/register', helloWorld.views.register),
+    # 跳转登录页面
+    path('auth/toLogin', helloWorld.views.to_login),
+    # 提交登录请求
+    path('auth/login', helloWorld.views.login),
+
+
+
 
     path("admin/", admin.site.urls),
     
