@@ -47,7 +47,9 @@ DEBUG = True
 
 
 #       项目的允许访问的主机
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*', '172.22.145.125', 'localhost', '127.0.0.1']
+
 
 
 # Application definition

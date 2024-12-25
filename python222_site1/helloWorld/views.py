@@ -55,6 +55,7 @@ def to_login(request):
     """
     return render(request, 'auth/login.html')
 
+
 def login(request):
     """
     用户登录
