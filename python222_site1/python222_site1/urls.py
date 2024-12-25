@@ -44,6 +44,12 @@ from django.urls import include
 # import order.views
 
 urlpatterns = [
+    # Auth认证
+    # 跳转注册页面
+    path('auth/toRegister', helloWorld.views.to_register),
+    # 提交注册请求
+    path('auth/register', helloWorld.views.register),
+
     path("admin/", admin.site.urls),
     
     

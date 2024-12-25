@@ -44,7 +44,7 @@ class BookTypeInfo(models.Model):
 
 class BookInfo(models.Model):
     id = models.AutoField(primary_key=True)
-    bookName = models.CharField(max_length=20)
+    bookName = models.CharField(max_length=20,verbose_name="图书名称")
     price = models.FloatField()
     publishDate = models.DateField()
     bookType = models.ForeignKey(BookTypeInfo, on_delete=models.PROTECT)

@@ -31,6 +31,14 @@ class BookInfoAdmin(admin.ModelAdmin):
     # 设置显示的字段
     list_display = ['id', 'bookName', 'price', 'publishDate', 'bookType']
     search_fields = ['bookName']
+    
+    # 重写分类方法，设置只读字段
+    def get_readonly_fields(self, request, obj=None):
+        if request.user.is_superuser:
+            self.readonly_fields = []
+        else:
+            self.readonly_fields = ['bookName']
+        return self.readonly_fields
 
 
 # 设置网站标题和应用标题
