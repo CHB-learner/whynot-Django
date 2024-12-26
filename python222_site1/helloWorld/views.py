@@ -75,6 +75,10 @@ def login(request):
         context={"errorInfo": "用户名或者密码错误", "username":
         username, "password": password})
 
+
+
+
+
 # 定义人类
 class Person:  
     # 属性 姓名

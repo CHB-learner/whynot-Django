@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>修改密码</title>
+</head>
+<body>
+<form action="/auth/setPwd" method="post">
+{% csrf_token %}
+<table>
+<tr>
+<th>修改密码</th>
+</tr>
+<tr>
+<td>用户名：</td>
+<td><input type="text" name="username" value="{{ request.user
+}}" readonly></td>
+</tr>
+<tr>
+    <td>原密码：</td>
+    <td><input type="password" name="oldPwd" value="{{ oldPwd }}">
+    </td>
+    </tr>
+    <tr>
+    <td>新密码：</td>
+    <td><input type="password" name="newPwd" value="{{ newPwd }}">
+    </td>
+    </tr>
+    <tr>
+    <td>
+    <input type="submit" value="提交">
+    </td>
+    <td>
+    <font color="red">{{ errorInfo }}</font>
+    </td>
+    </tr>
+    </table>
+    </form>
+    </body>
+    </html>

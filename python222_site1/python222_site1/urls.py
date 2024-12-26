@@ -54,7 +54,8 @@ urlpatterns = [
     # 提交登录请求
     path('auth/login', helloWorld.views.login),
 
-
+    # 修改密码 get请求直接跳转页面，post请求执行处理
+    path('auth/setPwd', helloWorld.views.setPwd),
 
 
     path("admin/", admin.site.urls),
