@@ -75,6 +75,44 @@ def login(request):
         context={"errorInfo": "用户名或者密码错误", "username":
         username, "password": password})
 
+def setPwd(request):
+    """
+    修改密码
+    :param request:
+    :return:
+    """
+    if request.method == "POST":
+        oldPwd = request.POST.get("oldPwd")
+        newPwd = request.POST.get("newPwd")
+        # 1,校验用户密码 check_password
+        isRight = request.user.check_password(oldPwd)
+        if not isRight:
+            return render(request, 'auth/setPwd.html',
+            context={"errorInfo": "原密码错误", "oldPwd":
+            oldPwd, "newPwd": newPwd})
+        # 2,设置新密码 set_password 实现加密
+        request.user.set_password(newPwd)
+        # 3,保存用户信息
+        request.user.save()
+        return render(request, 'auth/index.html')
+    return render(request, "auth/setPwd.html")
+
+def logout(request):
+    """
+    注销
+    :param request:
+    :return:
+    """
+    auth.logout(request)
+    return render(request, 'auth/index.html')
+
+def to_index(request):
+    """
+    跳转主页
+    :param request:
+    :return:
+    """
+    return render(request, 'auth/index.html')
 
 
 

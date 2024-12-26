@@ -57,6 +57,10 @@ urlpatterns = [
     # 修改密码 get请求直接跳转页面，post请求执行处理
     path('auth/setPwd', helloWorld.views.setPwd),
 
+    # 跳转主页
+    path('auth/index', helloWorld.views.to_index),
+    # 用户注销
+    path('auth/logout', helloWorld.views.logout),
 
     path("admin/", admin.site.urls),
     

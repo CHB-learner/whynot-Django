@@ -5,6 +5,12 @@
 <title>网站首页</title>
 </head>
 <body>
-网站首页,欢迎: {{ request.user }}
+网站首页
+{% if request.user.is_authenticated %}
+,欢迎: {{ request.user }}<br/>
+<a href="/auth/logout">注销</a>
+{% else %}
+<a href="/auth/toLogin">登录</a>
+{% endif %}
 </body>
 </html>
